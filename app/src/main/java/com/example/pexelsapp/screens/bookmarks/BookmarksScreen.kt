@@ -23,7 +23,7 @@ import com.example.pexelsapp.R
 @Composable
 fun BookmarksScreen(
     modifier: Modifier = Modifier,
-    onNavToDetailsScreen: () -> Unit,
+    onNavToDetailsScreen: (Long) -> Unit,
     onNavToHomeScreen: () -> Unit,
 ) {
     Column(modifier) {
@@ -43,7 +43,7 @@ fun BookmarksScreen(
                 R.drawable.vector,
                 R.drawable.vector,
             ),
-            { onNavToDetailsScreen() })
+            { onNavToDetailsScreen(0) })
     }
 }
 

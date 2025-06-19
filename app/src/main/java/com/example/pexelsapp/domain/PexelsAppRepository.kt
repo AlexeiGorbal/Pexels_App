@@ -1,0 +1,26 @@
+package com.example.pexelsapp.domain
+
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class PexelsAppRepository @Inject constructor(
+    private val api: PexelsAppApi
+) {
+
+    suspend fun getPhotos(): List<Photo> {
+        return api.getPhotos().photos.map { it.toModel() }
+    }
+
+    suspend fun getPhotoById(photoId: Long): Photo {
+        return api.getPhotoById(photoId).toModel()
+    }
+
+    suspend fun getSearchPhotos(inputText: String): List<Photo> {
+        return api.getSearchPhotos(inputText).photos.map { it.toModel() }
+    }
+}
+
+fun PhotoEntity.toModel(): Photo {
+    return Photo(id, src.original)
+}

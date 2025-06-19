@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.pexelsapp.screens.bookmarks.BookmarksScreen
 import com.example.pexelsapp.screens.ditails.DetailsScreen
 import com.example.pexelsapp.screens.home.HomeScreen
@@ -20,7 +21,7 @@ fun PexelsAppHost(
             HomeScreen(
                 modifier,
                 onNavToDetailsScreen = {
-                    navController.navigate(Details)
+                    navController.navigate(Details(it))
                 },
                 onNavToBookmarksScreen = {
                     navController.navigate(Bookmarks)
@@ -32,7 +33,7 @@ fun PexelsAppHost(
             BookmarksScreen(
                 modifier,
                 onNavToDetailsScreen = {
-                    navController.navigate(Details)
+                    navController.navigate(Details(it))
                 },
                 onNavToHomeScreen = {
                     navController.navigate(Home)
@@ -40,8 +41,9 @@ fun PexelsAppHost(
             )
         }
 
-        composable<Details> {
-            DetailsScreen(modifier)
+        composable<Details> { backStackEntry ->
+            val details: Details = backStackEntry.toRoute()
+            DetailsScreen(modifier, details.photoId)
         }
     }
 }
@@ -53,4 +55,4 @@ object Home
 object Bookmarks
 
 @Serializable
-object Details
+data class Details(val photoId: Long)
