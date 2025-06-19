@@ -1,6 +1,6 @@
 package com.example.pexelsapp.web
 
-import com.example.pexelsapp.domain.PexelsAppApi
+import com.example.pexelsapp.domain.remote.PexelsAppApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

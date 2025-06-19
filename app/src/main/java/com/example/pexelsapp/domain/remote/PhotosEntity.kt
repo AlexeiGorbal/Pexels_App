@@ -1,4 +1,4 @@
-package com.example.pexelsapp.domain
+package com.example.pexelsapp.domain.remote
 
 import com.google.gson.annotations.SerializedName
 
@@ -8,6 +8,7 @@ data class PhotosEntity(
 
 data class PhotoEntity(
     @SerializedName("id") val id: Long,
+    @SerializedName("photographer") val photographer: String,
     @SerializedName("src") val src: SrcEntity
 )
 

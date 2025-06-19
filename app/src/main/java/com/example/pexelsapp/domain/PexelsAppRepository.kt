@@ -1,5 +1,7 @@
 package com.example.pexelsapp.domain
 
+import com.example.pexelsapp.domain.remote.PexelsAppApi
+import com.example.pexelsapp.domain.remote.PhotoEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,5 +24,5 @@ class PexelsAppRepository @Inject constructor(
 }
 
 fun PhotoEntity.toModel(): Photo {
-    return Photo(id, src.original)
+    return Photo(id, photographer, src.original)
 }

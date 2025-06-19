@@ -1,4 +1,4 @@
-package com.example.pexelsapp.domain
+package com.example.pexelsapp.domain.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Path
