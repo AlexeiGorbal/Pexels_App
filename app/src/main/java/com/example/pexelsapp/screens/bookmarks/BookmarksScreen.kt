@@ -30,18 +30,18 @@ fun BookmarksScreen(
         Title()
         ListBookmarks(
             listOf(
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
-                R.drawable.vector,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
+                R.drawable.ic_placeholder,
             ),
             { onNavToDetailsScreen(0) })
     }
@@ -65,7 +65,7 @@ fun ListBookmarks(
         content = {
             items(listItems) { photo ->
                 Image(
-                    painter = painterResource(R.drawable.vector),
+                    painter = painterResource(R.drawable.ic_placeholder),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

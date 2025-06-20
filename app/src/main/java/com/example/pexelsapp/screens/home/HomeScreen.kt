@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -36,8 +35,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
@@ -93,7 +90,7 @@ fun SearchField(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                painter = painterResource(R.drawable.search_ic),
+                painter = painterResource(R.drawable.ic_search),
                 contentDescription = null,
                 modifier = Modifier.padding(start = 20.dp)
             )
@@ -127,7 +124,7 @@ fun SearchField(
                 onClick = onClearClick
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.clear_ic),
+                    painter = painterResource(R.drawable.ic_clear),
                     contentDescription = null
                 )
             }

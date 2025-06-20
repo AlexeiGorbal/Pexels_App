@@ -9,9 +9,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Divider
@@ -110,8 +108,8 @@ class MainActivity : ComponentActivity() {
 }
 
 val items = listOf(
-    Item("home", R.drawable.selected_home_ic, R.drawable.not_selected_home_ic),
-    Item("book", R.drawable.selected_bookmark_ic, R.drawable.not_selected_bookmark_ic)
+    Item("home", R.drawable.ic_selected_home, R.drawable.ic_not_selected_home),
+    Item("book", R.drawable.ic_selected_bookmark, R.drawable.ic_not_selected_bookmark)
 )
 
 data class Item(
