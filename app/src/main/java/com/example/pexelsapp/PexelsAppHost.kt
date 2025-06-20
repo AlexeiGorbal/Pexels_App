@@ -23,9 +23,6 @@ fun PexelsAppHost(
                 onNavToDetailsScreen = {
                     navController.navigate(Details(it))
                 },
-                onNavToBookmarksScreen = {
-                    navController.navigate(Bookmarks)
-                }
             )
         }
 
@@ -43,7 +40,9 @@ fun PexelsAppHost(
 
         composable<Details> { backStackEntry ->
             val details: Details = backStackEntry.toRoute()
-            DetailsScreen(modifier, details.photoId)
+            DetailsScreen(modifier, details.photoId, onBackPress = {
+                navController.popBackStack()
+            })
         }
     }
 }

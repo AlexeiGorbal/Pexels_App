@@ -5,9 +5,11 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface PexelsAppApi {
+    @GET("collections/featured?per_page=7")
+    suspend fun getFeaturedCollections(): CollectionsEntity
 
     @GET("curated")
-    suspend fun getPhotos(@Query("per_page") perPage: Int = 50): PhotosEntity
+    suspend fun getPhotos(@Query("per_page") perPage: Int = 30): PhotosEntity
 
     @GET("photos/{photoId}")
     suspend fun getPhotoById(@Path("photoId") photoId: Long): PhotoEntity
