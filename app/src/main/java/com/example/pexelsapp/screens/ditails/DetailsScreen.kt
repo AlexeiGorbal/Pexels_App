@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,7 +38,8 @@ import com.example.pexelsapp.R
 fun DetailsScreen(
     modifier: Modifier = Modifier,
     photoId: Long,
-    viewModel: DetailsScreenViewModel = hiltViewModel()
+    viewModel: DetailsScreenViewModel = hiltViewModel(),
+    onBackPress: () -> Unit
 ) {
     val photo by viewModel.photo.collectAsState()
 
@@ -54,12 +56,12 @@ fun DetailsScreen(
                     .fillMaxWidth()
                     .padding(start = 24.dp, end = 24.dp, top = 37.dp)
             ) {
-                BackButton({})
+                BackButton({ onBackPress() })
                 Title(it.photographer, Modifier.weight(1f))
             }
 
             SelectedPhoto(it.photo, Modifier.padding(start = 24.dp, end = 24.dp, top = 29.dp))
-
+            Spacer(Modifier.weight(1f))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -87,7 +89,7 @@ fun BackButton(
             .background(Color.LightGray)
     ) {
         Icon(
-            painter = painterResource(R.drawable.back_bt_ic),
+            painter = painterResource(R.drawable.ic_back_bt),
             contentDescription = null,
         )
     }
@@ -143,7 +145,7 @@ fun DownloadButton(
                 .background(Color.Red),
         ) {
             Icon(
-                painter = painterResource(R.drawable.download_ic),
+                painter = painterResource(R.drawable.ic_download),
                 contentDescription = null
             )
         }
@@ -169,7 +171,7 @@ fun BookmarkButton(
             .background(Color.LightGray, CircleShape)
     ) {
         Icon(
-            painter = painterResource(R.drawable.bookmark),
+            painter = painterResource(R.drawable.ic_not_selected_bookmark),
             contentDescription = null,
         )
     }
