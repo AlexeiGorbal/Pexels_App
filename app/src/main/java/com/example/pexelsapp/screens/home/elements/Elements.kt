@@ -163,23 +163,6 @@ fun ListPhotos(
 }
 
 @Composable
-fun ListPlaceholders(
-    modifier: Modifier = Modifier
-) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        contentPadding = PaddingValues(bottom = 24.dp),
-        horizontalArrangement = Arrangement.spacedBy(17.dp),
-        verticalItemSpacing = 15.dp,
-        modifier = modifier
-    ) {
-        items(listOf(4)) {
-            PlaceholderItem()
-        }
-    }
-}
-
-@Composable
 fun PhotoItem(
     photo: Photo,
     onClick: () -> Unit,
@@ -192,27 +175,9 @@ fun PhotoItem(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.DarkGray)
-            .clickable { onClick() }
+            .clickable { onClick() },
+        placeholder = painterResource(R.drawable.ic_placeholder)
     )
-}
-
-@Composable
-fun PlaceholderItem(
-    modifier: Modifier = Modifier
-) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(width = 155.dp, height = 170.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(Color.DarkGray)
-    ) {
-        Image(
-            painter = painterResource(R.drawable.ic_placeholder),
-            contentDescription = null,
-        )
-    }
 }
 
 @Composable
