@@ -1,5 +1,6 @@
 package com.example.pexelsapp.screens.home
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,11 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pexelsapp.screens.home.elements.FeaturedCollectionsList
@@ -31,6 +34,13 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
     val state by viewModel.state.collectAsState(null)
     val text by viewModel.searchValue.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(true) {
+        viewModel.toastEvent.collect {
+            Toast.makeText(context, context.getString(it), Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Column(modifier) {
         SearchField(
@@ -47,7 +57,9 @@ fun HomeScreen(
         when (uiState) {
             UiState.Error -> {
                 ErrorState(
-                    onTryAgainClick = { viewModel.tryAgain() }
+                    onTryAgainClick = {
+                        viewModel.tryAgain()
+                    }
                 )
             }
 
@@ -117,7 +129,6 @@ fun NotFoundState(
 @Composable
 fun LoadingState(modifier: Modifier = Modifier) {
     ProgressBarView()
-    ListPlaceholders(modifier = modifier)
 }
 
 @Composable
@@ -125,7 +136,7 @@ fun ErrorState(
     onTryAgainClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    NoNetworkState(onTryAgainClick = onTryAgainClick)
+    NoNetworkState(onTryAgainClick = onTryAgainClick,modifier=Modifier.fillMaxSize())
 }
 
 @Composable

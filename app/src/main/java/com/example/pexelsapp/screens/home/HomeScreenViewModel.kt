@@ -3,12 +3,18 @@ package com.example.pexelsapp.screens.home
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pexelsapp.R
 import com.example.pexelsapp.domain.Collection
 import com.example.pexelsapp.domain.PexelsAppRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,6 +23,7 @@ class HomeScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var firstCollection = ""
+    private var job: Job? = null
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -27,6 +34,9 @@ class HomeScreenViewModel @Inject constructor(
     private var _searchValue = MutableStateFlow<String?>(null)
     val searchValue = _searchValue.asStateFlow()
 
+    private val _toastEvent = MutableSharedFlow<Int>()
+    val toastEvent = _toastEvent.asSharedFlow()
+
     init {
         loadPhotos()
     }
@@ -34,12 +44,15 @@ class HomeScreenViewModel @Inject constructor(
     fun search(text: String) {
         _searchValue.value = text
         _uiState.value = UiState.Founding
-
-        if (text.isNotEmpty()) {
-            chooseCollection(text)
-            searchPhotos(text)
-        } else {
-            loadPhotos()
+        job?.cancel()
+        job = viewModelScope.launch {
+            delay(350L)
+            if (text.isNotEmpty()) {
+                chooseCollection(text)
+                searchPhotos(text)
+            } else {
+                loadPhotos()
+            }
         }
     }
 
@@ -74,13 +87,20 @@ class HomeScreenViewModel @Inject constructor(
         val prevState = _state.value ?: return
 
         viewModelScope.launch {
-            val listPhotos = repository.getSearchPhotos(text)
-            if (listPhotos.isNotEmpty()) {
-                val currentState = _state.value ?: return@launch
-                _state.value = prevState.copy(photos = listPhotos)
-                _uiState.value = UiState.Loaded(currentState)
-            } else {
-                _uiState.value = UiState.NotFound
+            try {
+                val listPhotos = repository.getSearchPhotos(text)
+                if (listPhotos.isNotEmpty()) {
+                    val currentState = _state.value ?: return@launch
+                    _state.value = prevState.copy(photos = listPhotos)
+                    _uiState.value = UiState.Loaded(currentState)
+                } else {
+                    _uiState.value = UiState.NotFound
+                }
+            } catch (e: UnknownHostException) {
+                _uiState.value = UiState.Error
+                _toastEvent.emit(R.string.no_network_connection)
+            } catch (e: Exception) {
+                //TODO
             }
         }
     }
@@ -96,15 +116,18 @@ class HomeScreenViewModel @Inject constructor(
     private fun loadPhotos() {
         _uiState.value = UiState.Loading
         viewModelScope.launch {
-            val collections = repository.getFeaturedCollections()
-            firstCollection = collections[0].title
-            _state.value =
-                HomeScreenState(repository.getPhotos(), convertCollectionsItems(collections))
             try {
+                val collections = repository.getFeaturedCollections()
+                firstCollection = collections[0].title
+                _state.value =
+                    HomeScreenState(repository.getPhotos(), convertCollectionsItems(collections))
                 val currentState = _state.value ?: return@launch
                 _uiState.value = UiState.Loaded(currentState)
-            } catch (e: Exception) {
+            } catch (e: UnknownHostException) {
                 _uiState.value = UiState.Error
+                _toastEvent.emit(R.string.no_network_connection)
+            } catch (e: Exception) {
+                //TODO
             }
         }
     }
